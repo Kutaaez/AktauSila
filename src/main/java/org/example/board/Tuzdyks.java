@@ -24,4 +24,9 @@ public class Tuzdyks {
         tuzdyks[WHITE_TUZDYK] = 0;
         tuzdyks[BLACK_TUZDYK] = 0;
     }
+    private void validatePlayerColor(int playerColor) {
+        if (playerColor < 0 || playerColor > 1) {
+            throw new IllegalArgumentException("Player color must be 0 or 1");
+        }
+    }
 }
