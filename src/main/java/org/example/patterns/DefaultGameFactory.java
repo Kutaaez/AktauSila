@@ -1,7 +1,8 @@
-package org.example.patterns.factory;
+package org.example.patterns;
 
 import org.example.game.Ball;
 import org.example.game.Board;
+import org.example.patterns.factory.GameComponentFactory;
 
 public class DefaultGameFactory implements GameComponentFactory {
 
