@@ -57,3 +57,6 @@ public class StandardMoveStrategy implements IMoveStrategy {
         return sow;
     }
 }
+//To isolate and abstract the "move logic" behavior, allowing
+// the game rules to be easily replaced or modified without changing the rest
+// of the code.
