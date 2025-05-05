@@ -9,3 +9,8 @@ public class PlayerFactory {
         }
     }
 }
+
+//factory design pattern
+//The PlayerFactory class implements the Factory design pattern
+// by creating and returning different combinations of IPlayer objects
+// (either two human players or one human and one bot) based on a boolean flag.
