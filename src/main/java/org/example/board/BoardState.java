@@ -48,3 +48,7 @@ public class BoardState {
         currentPlayer.reset();
     }
 }
+
+//facade
+//It wraps the board’s underlying components and provides a single,
+// simplified interface for querying and modifying the game state.
