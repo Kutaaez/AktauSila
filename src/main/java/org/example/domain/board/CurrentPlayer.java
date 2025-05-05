@@ -1,4 +1,4 @@
-package org.example.board;
+package org.example.domain.board;
 public class CurrentPlayer {
     public static final int WHITE_PLAYER = 0;
     public static final int BLACK_PLAYER = 1;

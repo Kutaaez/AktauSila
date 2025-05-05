@@ -1,4 +1,4 @@
-package org.example.board;
+package org.example.domain.board;
 
 public class BoardState {
     private final Holes holes;

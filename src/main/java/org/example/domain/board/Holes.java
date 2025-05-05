@@ -1,4 +1,4 @@
-package org.example.board;
+package org.example.domain.board;
 
 public class Holes {
     public static final int TOTAL_HOLES = 18;

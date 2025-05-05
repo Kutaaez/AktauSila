@@ -1,4 +1,4 @@
-package org.example.board;
+package org.example.domain.board;
 
 public class Kazans {
     public static final int WHITE_KAZAN = 0;

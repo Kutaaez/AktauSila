@@ -1,4 +1,4 @@
-package org.example.board;
+package org.example.domain.board;
 
 public class Tuzdyks {
     public static final int WHITE_TUZDYK = 0;

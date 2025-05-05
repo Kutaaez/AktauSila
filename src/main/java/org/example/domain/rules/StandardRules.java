@@ -1,9 +1,9 @@
 package org.example.domain.rules;
 
-import org.example.board.BoardState;
-import org.example.board.CurrentPlayer;
-import org.example.board.Holes;
-import org.example.board.Kazans;
+import org.example.domain.board.BoardState;
+import org.example.domain.board.CurrentPlayer;
+import org.example.domain.board.Holes;
+import org.example.domain.board.Kazans;
 
 public class StandardRules implements IRules {
     public static final int TUZDYK_SEEDS = 3;

@@ -1,6 +1,6 @@
 package org.example.domain.rules;
 
-import org.example.board.BoardState;
+import org.example.domain.board.BoardState;
 
 public interface IRules {
     boolean canFormTuzdyk(int index, int playerColor, BoardState boardState);
