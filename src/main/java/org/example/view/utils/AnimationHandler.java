@@ -1,4 +1,4 @@
-package org.example.view.components;
+package org.example.view.utils;
 
 import javafx.animation.ScaleTransition;
 import javafx.scene.layout.GridPane;
