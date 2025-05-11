@@ -1,9 +1,3 @@
-/* Основной фон приложения */
-.root {
-    -fx-background-color: #F5DEB3;
-}
-
-/* Стили для табло счета (GameStatusPanel и ScoreBoard) */
 .score-board {
     -fx-background-color: #F9F0DF;
     -fx-border-color: #8B4513;
@@ -12,73 +6,17 @@
     -fx-padding: 10px;
 }
 
-/* Стили для игрового поля (GameBoard) */
-.game-board {
-    -fx-background-color: #F9F0DF;
-    -fx-border-color: #8B4513;
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px;
-    -fx-padding: 10px;
+.root {
+    -fx-background-color: #F5DEB3;
 }
 
-/* Стили для панели управления (ControlPanel) */
-.control-panel {
-    -fx-background-color: #F9F0DF;
-    -fx-border-color: #8B4513;
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px;
-    -fx-padding: 15px;
-}
-
-/* Стили для панели статуса игры (GameStatusPanel) */
-.game-status-panel {
-    -fx-background-color: #F9F0DF;
-    -fx-border-color: #8B4513;
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px;
-    -fx-padding: 10px;
-}
-
-/* Стили для индикатора хода (TurnIndicator) */
-.turn-indicator {
-    -fx-background-color: #F9F0DF;
-    -fx-border-color: #8B4513;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
-    -fx-padding: 5px;
-}
-
-.turn-label {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1A1A1A;
-    -fx-font-family: "Arial";
-}
-
-.player-turn {
-    -fx-text-fill: #0066cc; /* Синий для игрока */
-}
-
-.opponent-turn {
-    -fx-text-fill: #cc3300; /* Красный для противника */
-}
-
-/* Стили для кнопок */
 .reset-button, .exit-button {
     -fx-background-color: #8B4513;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-background-radius: 5;
-    -fx-padding: 8px;
-    -fx-font-family: "Arial";
-    -fx-font-weight: bold;
 }
 
-.reset-button:hover, .exit-button:hover {
-    -fx-background-color: #A0522D; /* Более светлый коричневый при наведении */
-}
-
-/* Стили для луно */
 .hole-pane {
     -fx-background-color: transparent;
 }
@@ -101,12 +39,10 @@
     -fx-stroke: #FF0000;
 }
 
-/* Стили для оверлея победы */
 .win-overlay {
     -fx-alignment: center;
 }
 
-/* Стили для модального окна */
 .modal-background {
     -fx-background-color: rgba(0, 0, 0, 0.5);
 }
@@ -124,87 +60,4 @@
     -fx-text-fill: #1A1A1A;
     -fx-font-family: "Arial";
     -fx-font-weight: normal;
-}
-
-/* Стили для HolePane */
-.hole-pane {
-    -fx-background-color: transparent;
-}
-
-.hole-background {
-    -fx-fill: #F9F0DF;
-    -fx-stroke: #8B4513;
-    -fx-stroke-width: 2;
-}
-
-.hole-count-label {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #0066cc; /* Синий, как был Color.BLUE */
-    -fx-font-family: "Arial";
-}
-
-.hole-index-label {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1A1A1A;
-    -fx-font-family: "Arial";
-}
-
-.modal-background {
-    -fx-background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    -fx-background-color: #F9F0DF;
-    -fx-background-radius: 10;
-    -fx-padding: 20px;
-}
-
-.modal-label {
-    -fx-font-size: 16px;
-    -fx-text-fill: #1a1a1a;
-    -fx-font-family: "Arial";
-}
-/* Стили для WinOverlay */
-.win-overlay {
-    -fx-background-color: rgba(0, 0, 0, 0.7);
-    -fx-alignment: center;
-}
-
-.win-overlay-content {
-    -fx-background-color: #F9F0DF;
-    -fx-background-radius: 10;
-    -fx-padding: 20px;
-}
-
-.win-overlay-label {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1a1a1a;
-    -fx-wrap-text: true;
-    -fx-alignment: center;
-    -fx-font-family: "Arial";
-}
-/* Стили для ControlPanel */
-.control-panel {
-    -fx-background-color: #F9F0DF;
-    -fx-border-color: #8B4513;
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px;
-    -fx-padding: 15px;
-}
-
-.pause-button {
-    -fx-background-color: #6A5ACD;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-background-radius: 5;
-    -fx-padding: 8px;
-    -fx-font-family: "Arial";
-    -fx-font-weight: bold;
-}
-
-.pause-button:hover {
-    -fx-background-color: #483D8B;
 }

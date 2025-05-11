@@ -9,19 +9,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-public class ConfirmModal extends StackPane {
-    private static final double MODAL_WIDTH = 300;
-    private static final double MODAL_HEIGHT = 200;
-
-    private final Stage modalStage;
+public class ConfirmModal {
+    private final Stage stage;
     private Runnable onConfirm;
-    private Runnable onMainMenu;
 
     public ConfirmModal(String title, String message) {
-        this.modalStage = new Stage();
-        this.modalStage.initModality(Modality.APPLICATION_MODAL);
-        getStyleClass().add("modal-background");
+        stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setTitle(title);
 
         VBox content = new VBox(20);
         content.setAlignment(Pos.CENTER);
@@ -31,44 +29,36 @@ public class ConfirmModal extends StackPane {
         Label messageLabel = new Label(message);
         messageLabel.getStyleClass().add("modal-label");
 
-        Button confirmButton = new Button("Yes");
+        Button confirmButton = new Button("Confirm");
+        confirmButton.setPrefWidth(100);
         confirmButton.getStyleClass().add("reset-button");
         confirmButton.setOnAction(e -> {
             if (onConfirm != null) {
                 onConfirm.run();
             }
-            modalStage.close();
+            stage.close();
         });
 
-        Button cancelButton = new Button("No");
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setPrefWidth(100);
         cancelButton.getStyleClass().add("exit-button");
-        cancelButton.setOnAction(e -> modalStage.close());
+        cancelButton.setOnAction(e -> stage.close());
 
-        Button mainMenuButton = new Button(GameTextUtils.getMainMenuButtonText());
-        mainMenuButton.getStyleClass().add("exit-button");
-        mainMenuButton.setOnAction(e -> {
-            if (onMainMenu != null) {
-                onMainMenu.run();
-            }
-            modalStage.close();
-        });
+        content.getChildren().addAll(messageLabel, confirmButton, cancelButton);
 
-        content.getChildren().addAll(messageLabel, confirmButton, cancelButton, mainMenuButton);
-        getChildren().add(content);
+        StackPane root = new StackPane(content);
+        root.getStyleClass().add("modal-background");
 
-        modalStage.setScene(new Scene(this, MODAL_WIDTH, MODAL_HEIGHT));
-        modalStage.setTitle(title);
+        Scene scene = new Scene(root, 300, 200);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        stage.setScene(scene);
     }
 
     public void setOnConfirm(Runnable onConfirm) {
         this.onConfirm = onConfirm;
     }
 
-    public void setOnMainMenu(Runnable onMainMenu) {
-        this.onMainMenu = onMainMenu;
-    }
-
     public void show() {
-        modalStage.showAndWait();
+        stage.showAndWait();
     }
 }

@@ -5,41 +5,48 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.example.controller.GameController;
+import org.example.domain.player.BotPlayer;
 
-public class ScoreBoard extends Component {
+public class ScoreBoard {
+    private final VBox container;
     private final Label playerScore;
     private final Label opponentScore;
 
-    public ScoreBoard(String playerName, String opponentName) {
-        super(new VBox(10));
-        applyStyleClass("score-board");
+    public ScoreBoard(GameController controller) {
+        container = new VBox(10);
+        container.setAlignment(Pos.CENTER);
+        container.setPadding(new Insets(10));
+        container.getStyleClass().add("score-board");
 
-        playerScore = createScoreLabel();
-        opponentScore = createScoreLabel();
+        playerScore = new Label("0");
+        playerScore.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1a1a1a;");
+        playerScore.setPadding(new Insets(5));
 
-        HBox playerBox = createScoreBox(playerName + ":", playerScore);
-        HBox opponentBox = createScoreBox(opponentName + ":", opponentScore);
+        opponentScore = new Label("0");
+        opponentScore.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1a1a1a;");
+        opponentScore.setPadding(new Insets(5));
 
-        ((VBox) container).getChildren().addAll(playerBox, opponentBox);
+        boolean isBotGame = controller.getPlayers()[1] instanceof BotPlayer;
+        Label label1 = new Label(isBotGame ? "Player Kazan:" : "Player 1 Kazan:");
+        label1.setStyle("-fx-font-size: 14px; -fx-text-fill: #333333;");
+        Label label2 = new Label(isBotGame ? "Bot Kazan:" : "Player 2 Kazan:");
+        label2.setStyle("-fx-font-size: 14px; -fx-text-fill: #333333;");
+
+        HBox player1Box = new HBox(5, label1, playerScore);
+        player1Box.setAlignment(Pos.CENTER);
+        HBox player2Box = new HBox(5, label2, opponentScore);
+        player2Box.setAlignment(Pos.CENTER);
+
+        container.getChildren().addAll(player1Box, player2Box);
     }
 
-    private Label createScoreLabel() {
-        Label label = new Label("0");
-        label.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1a1a1a;");
-        label.setPadding(new Insets(5));
-        return label;
+    public void setScores(int player1, int player2) {
+        playerScore.setText(String.valueOf(player1));
+        opponentScore.setText(String.valueOf(player2));
     }
 
-    private HBox createScoreBox(String title, Label score) {
-        Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #333333;");
-        HBox box = new HBox(5, titleLabel, score);
-        box.setAlignment(Pos.CENTER);
-        return box;
-    }
-
-    public void setScores(int playerScore, int opponentScore) {
-        this.playerScore.setText(String.valueOf(playerScore));
-        this.opponentScore.setText(String.valueOf(opponentScore));
+    public VBox getNode() {
+        return container;
     }
 }
