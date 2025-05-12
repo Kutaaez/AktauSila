@@ -25,7 +25,7 @@ state TwoPlayerGame {
 state GameOver {
   [*] --> PlayerWins
   [*] --> BotWins
-  [*] --> Player1Wins
+  [*] --> Plaxyer1Wins
   [*] --> Player2Wins
   [*] --> Draw
 }
