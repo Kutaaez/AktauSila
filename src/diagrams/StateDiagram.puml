@@ -1,0 +1,39 @@
+@startuml StateDiagram
+
+[*] --> MainMenu
+
+MainMenu --> SinglePlayerGame : Start Single Player
+MainMenu --> TwoPlayerGame : Start Two Players
+MainMenu --> [*] : Exit
+
+state SinglePlayerGame {
+  [*] --> PlayerTurn
+  PlayerTurn --> BotTurn : Make Move
+  BotTurn --> PlayerTurn : Bot Makes Move
+  PlayerTurn --> GameOver : Win Condition
+  BotTurn --> GameOver : Win Condition
+}
+
+state TwoPlayerGame {
+  [*] --> Player1Turn
+  Player1Turn --> Player2Turn : Make Move
+  Player2Turn --> Player1Turn : Make Move
+  Player1Turn --> GameOver : Win Condition
+  Player2Turn --> GameOver : Win Condition
+}
+
+state GameOver {
+  [*] --> PlayerWins
+  [*] --> BotWins
+  [*] --> Player1Wins
+  [*] --> Player2Wins
+  [*] --> Draw
+}
+
+SinglePlayerGame --> MainMenu : Exit Game
+TwoPlayerGame --> MainMenu : Exit Game
+GameOver --> SinglePlayerGame : New Game
+GameOver --> TwoPlayerGame : New Game
+GameOver --> MainMenu : Return to Menu
+
+@enduml

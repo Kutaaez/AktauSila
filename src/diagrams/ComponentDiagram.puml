@@ -1,0 +1,49 @@
+@startuml ComponentDiagram
+
+package "JavaFX Application" {
+  [App]
+}
+
+package "View Layer" {
+  [Main Menu View]
+  [Game View]
+  [UI Components]
+  [UI Components] --> [HolePane]
+  [UI Components] --> [ScoreBoard]
+  [UI Components] --> [WinOverlay]
+}
+
+package "Controller Layer" {
+  [Game Controller]
+  [Bot Move Scheduler]
+}
+
+package "Domain Layer" {
+  [Board Model]
+  [Game Logic]
+  [Player Management]
+  [Command Pattern]
+  [Board Model] --> [BoardState]
+  [Board Model] --> [ToguzBoard]
+  [Game Logic] --> [Move Strategy]
+  [Game Logic] --> [Game Rules]
+  [Game Logic] --> [Game State]
+  [Player Management] --> [Human Player]
+  [Player Management] --> [Bot Player]
+  [Command Pattern] --> [Move Command]
+  [Command Pattern] --> [Reset Command]
+}
+
+[App] --> [Main Menu View]
+[Main Menu View] --> [Game Controller]
+[Game Controller] --> [Game View]
+[Game View] --> [UI Components]
+[Game Controller] --> [Bot Move Scheduler]
+[Game Controller] --> [Board Model]
+[Game Controller] --> [Command Pattern]
+[Bot Move Scheduler] --> [Board Model]
+[Board Model] --> [Game Logic]
+[Board Model] --> [Player Management]
+[Command Pattern] --> [Board Model]
+
+@enduml

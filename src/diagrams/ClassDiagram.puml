@@ -1,0 +1,357 @@
+@startuml ClassDiagram
+
+' Application
+class App {
+  +start(primaryStage: Stage)
+  +main(args: String[])
+}
+
+' Controller Classes
+interface IGameController {
+  +onHoleClicked(holeIndex: int, playerSide: boolean)
+  +onNewGame()
+  +getCurrentPlayer(): int
+  +getGameResult(): int
+  +getHoleCount(holeIndex: int): int
+  +getOpponentHoleCount(holeIndex: int): int
+  +getKazan(playerColor: int): int
+  +getTuzdyk(playerColor: int): int
+  +isFinished(): boolean
+}
+
+class GameController {
+  -model: ToguzBoard
+  -view: MainView
+  -players: IPlayer[]
+  -botMoveScheduler: BotMoveScheduler
+  +GameController(twoPlayers: boolean)
+  +setView(view: MainView)
+  +onHoleClicked(holeIndex: int, playerSide: boolean)
+  +onNewGame()
+  +getCurrentPlayer(): int
+  +getGameResult(): int
+  +getHoleCount(holeIndex: int): int
+  +getOpponentHoleCount(holeIndex: int): int
+  +getKazan(playerColor: int): int
+  +getTuzdyk(playerColor: int): int
+  +isFinished(): boolean
+  +getPlayers(): IPlayer[]
+  +onStateChanged()
+}
+
+class BotMoveScheduler {
+  +scheduleBotMove(controller: GameController, model: ToguzBoard, players: IPlayer[])
+}
+
+' Domain - Board Classes
+class BoardState {
+  -holes: Holes
+  -kazans: Kazans
+  -tuzdyks: Tuzdyks
+  -currentPlayer: CurrentPlayer
+  +BoardState()
+  +getHoles(): Holes
+  +getKazans(): Kazans
+  +getTuzdyks(): Tuzdyks
+  +getCurrentPlayer(): CurrentPlayer
+  +getHoleCount(index: int): int
+  +getKazan(playerColor: int): int
+  +addToKazan(playerColor: int, seeds: int)
+  +reset()
+}
+
+class Holes {
+  +TOTAL_HOLES: int
+  +HOLES_PER_PLAYER: int
+  +INITIAL_SEEDS: int
+  +TUZDYK_MARKER: int
+  -holes: int[]
+  +Holes()
+  +getSeedCount(index: int): int
+  +setSeedCount(index: int, count: int)
+  +isTuzdyk(index: int): boolean
+  +reset()
+}
+
+class Kazans {
+  +WHITE_KAZAN: int
+  +BLACK_KAZAN: int
+  -kazans: int[]
+  +Kazans()
+  +getKazan(playerColor: int): int
+  +addToKazan(playerColor: int, seeds: int)
+  +reset()
+}
+
+class Tuzdyks {
+  +WHITE_TUZDYK: int
+  +BLACK_TUZDYK: int
+  -tuzdyks: int[]
+  +Tuzdyks()
+  +getTuzdyk(playerColor: int): int
+  +setTuzdyk(playerColor: int, holeIndex: int)
+  +reset()
+}
+
+class CurrentPlayer {
+  +WHITE_PLAYER: int
+  +BLACK_PLAYER: int
+  -currentPlayer: int
+  +CurrentPlayer()
+  +getCurrentPlayer(): int
+  +switchPlayer()
+  +reset()
+}
+
+' Domain - Facade
+class ToguzBoard {
+  -boardState: BoardState
+  -gameState: IGameState
+  -moveStrategy: IMoveStrategy
+  -observers: List<IStateObserver>
+  +ToguzBoard()
+  +executeMove(hole: int, playerColor: int): boolean
+  +getAvailableMoves(playerColor: int): List<Integer>
+  +getGameResult(): int
+  +getScore(): String
+  +getCurrentColor(): int
+  +isGameFinished(): boolean
+  +getTuzdyk(playerColor: int): int
+  +getKazan(playerColor: int): int
+  +getHoleCount(hole: int): int
+  +getOpponentHoleCount(hole: int): int
+  +reset()
+  +addObserver(observer: IStateObserver)
+}
+
+' Domain - Game
+interface IGameState {
+  +isFinished(): boolean
+  +getResult(): int
+  +checkGameState()
+  +reset()
+}
+
+class GameStateImpl {
+  -finished: boolean
+  -gameResult: int
+  -resultChecker: GameResultChecker
+  -boardState: BoardState
+  +GameStateImpl(boardState: BoardState)
+  +isFinished(): boolean
+  +getResult(): int
+  +checkGameState()
+  +reset()
+  +setFinished(finished: boolean)
+  +setGameResult(gameResult: int)
+}
+
+class GameResultChecker {
+  +TOTAL_SEEDS: int
+  +WIN_THRESHOLD: int
+  +DRAW_THRESHOLD: int
+  +checkGameState(boardState: BoardState, gameState: GameStateImpl)
+}
+
+' Domain - Observer
+interface IStateObserver {
+  +onStateChanged()
+}
+
+' Domain - Player
+interface IPlayer {
+  +makeMove(board: ToguzBoard): int
+  +getColor(): int
+}
+
+class HumanPlayer {
+  -color: int
+  +HumanPlayer(color: int)
+  +makeMove(board: ToguzBoard): int
+  +getColor(): int
+}
+
+class BotPlayer {
+  -color: int
+  -random: Random
+  +BotPlayer(color: int)
+  +makeMove(board: ToguzBoard): int
+  +getColor(): int
+}
+
+class PlayerFactory {
+  +createPlayers(twoPlayers: boolean): IPlayer[]
+}
+
+' Domain - Rules
+interface IRules {
+  +canFormTuzdyk(index: int, playerColor: int, boardState: BoardState): boolean
+  +applyTuzdyk(index: int, playerColor: int, boardState: BoardState)
+  +canCapture(index: int, playerColor: int, boardState: BoardState): boolean
+  +applyCapture(index: int, playerColor: int, boardState: BoardState)
+}
+
+class StandardRules {
+  +TUZDYK_SEEDS: int
+  +canFormTuzdyk(index: int, playerColor: int, boardState: BoardState): boolean
+  +applyTuzdyk(index: int, playerColor: int, boardState: BoardState)
+  +canCapture(index: int, playerColor: int, boardState: BoardState): boolean
+  +applyCapture(index: int, playerColor: int, boardState: BoardState)
+}
+
+' Domain - Strategy
+interface IMoveStrategy {
+  +executeMove(boardState: BoardState, hole: int, playerColor: int): boolean
+}
+
+class StandardMoveStrategy {
+  -rules: IRules
+  +StandardMoveStrategy(rules: IRules)
+  +executeMove(boardState: BoardState, hole: int, playerColor: int): boolean
+}
+
+class MoveStrategyFactory {
+  +createStandardMoveStrategy(): IMoveStrategy
+}
+
+' Domain - Command
+interface ICommand {
+  +execute(): boolean
+}
+
+class MoveCommand {
+  -board: ToguzBoard
+  -hole: int
+  -playerColor: int
+  +MoveCommand(board: ToguzBoard, hole: int, playerColor: int)
+  +execute(): boolean
+}
+
+class ResetCommand {
+  -board: ToguzBoard
+  +ResetCommand(board: ToguzBoard)
+  +execute(): boolean
+}
+
+' View - Screens
+class MainMenuView {
+  -stage: Stage
+  -scene: Scene
+  +MainMenuView(stage: Stage)
+  +getScene(): Scene
+}
+
+class MainView {
+  -controller: GameController
+  -stage: Stage
+  -scene: Scene
+  -root: BorderPane
+  -topRow: HBox
+  -bottomRow: HBox
+  -scoreBoard: ScoreBoard
+  -playerPanel: PlayerPanel
+  -winOverlay: WinOverlay
+  +MainView(controller: GameController, stage: Stage)
+  +update()
+  +getScene(): Scene
+}
+
+' View - Components
+class HolePane {
+  -holeIndex: int
+  -playerSide: boolean
+  -container: StackPane
+  -background: Rectangle
+  -ballsGrid: GridPane
+  -stackedBalls: StackPane
+  -countLabel: Label
+  -indexLabel: Label
+  -isTuzdyk: boolean
+  +HolePane(holeIndex: int, playerSide: boolean)
+  +getHoleIndex(): int
+  +setCount(count: int)
+  +setTuzdyk(isTuz: boolean)
+}
+
+class ScoreBoard {
+  -container: VBox
+  -playerScore: Label
+  -opponentScore: Label
+  +ScoreBoard(controller: GameController)
+  +setScores(player1: int, player2: int)
+  +getNode(): VBox
+}
+
+class PlayerPanel {
+  -node: VBox
+  -playerScore: Label
+  -opponentScore: Label
+  -currentPlayerLabel: Label
+  -playerLabel: Label
+  -opponentLabel: Label
+  +PlayerPanel(controller: GameController)
+  +setScores(playerKazan: int, opponentKazan: int)
+  +setCurrentPlayer(currentPlayer: int)
+  +getNode(): Node
+}
+
+class WinOverlay {
+  -resultLabel: Label
+  -newGameButton: Button
+  -mainMenuButton: Button
+  -controller: GameController
+  +WinOverlay(controller: GameController, stage: Stage)
+  +showResult(result: int)
+}
+
+class ConfirmModal {
+  -stage: Stage
+  -onConfirm: Runnable
+  +ConfirmModal(title: String, message: String)
+  +setOnConfirm(onConfirm: Runnable)
+  +show()
+}
+
+' Relationships
+App --> MainMenuView
+IGameController <|.. GameController
+GameController --> ToguzBoard
+GameController --> MainView
+GameController --> IPlayer
+GameController --> BotMoveScheduler
+GameController ..|> IStateObserver
+ToguzBoard --> BoardState
+ToguzBoard --> IMoveStrategy
+ToguzBoard --> IGameState
+ToguzBoard --> IStateObserver
+BoardState --> Holes
+BoardState --> Kazans
+BoardState --> Tuzdyks
+BoardState --> CurrentPlayer
+IGameState <|.. GameStateImpl
+GameStateImpl --> GameResultChecker
+GameStateImpl --> BoardState
+IPlayer <|.. HumanPlayer
+IPlayer <|.. BotPlayer
+PlayerFactory --> IPlayer
+IRules <|.. StandardRules
+IMoveStrategy <|.. StandardMoveStrategy
+StandardMoveStrategy --> IRules
+MoveStrategyFactory --> IMoveStrategy
+MoveStrategyFactory --> StandardRules
+ICommand <|.. MoveCommand
+ICommand <|.. ResetCommand
+MoveCommand --> ToguzBoard
+ResetCommand --> ToguzBoard
+GameController --> ICommand
+MainMenuView --> GameController
+MainView --> GameController
+MainView --> HolePane
+MainView --> ScoreBoard
+MainView --> PlayerPanel
+MainView --> WinOverlay
+MainView --> ConfirmModal
+WinOverlay --> GameController
+WinOverlay --> MainMenuView
+
+@enduml

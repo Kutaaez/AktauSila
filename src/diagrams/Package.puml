@@ -1,0 +1,11 @@
+@startuml PackageDiagram
+
+package "org.example" { package "application" { [App.java] }
+
+package "controller" { [GameController.java] [BotMoveScheduler.java] [IGameController.java] }
+
+package "domain" { package "board" { [BoardState.java] [CurrentPlayer.java] [Holes.java] [Kazans.java] [Tuzdyks.java] } package "command" { [ICommand.java] [MoveCommand.java] [ResetCommand.java] } package "facade" { [ToguzBoard.java] } package "game" { [GameResultChecker.java] [GameStateImpl.java] [IGameState.java] } package "observer" { [IStateObserver.java] } package "player" { [BotPlayer.java] [HumanPlayer.java] [IPlayer.java] [PlayerFactory.java] } package "rules" { [IRules.java] [StandardRules.java] } package "strategy" { [IMoveStrategy.java] [MoveStrategyFactory.java] [StandardMoveStrategy.java] } }
+
+package "view" { package "components" { [ConfirmModal.java] [HolePane.java] [PlayerPanel.java] [ScoreBoard.java] [TurnIndicator.java] [WinOverlay.java] } package "screens" { [MainMenuView.java] [MainView.java] } } }
+
+@enduml

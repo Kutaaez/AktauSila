@@ -1,0 +1,34 @@
+@startuml
+actor Player
+participant "MainView" as UI
+participant "GameController" as GC
+participant "BotMoveScheduler" as BC
+participant "ToguzBoard" as TB
+participant "BoardState" as BS
+participant "MoveStrategy" as MS
+participant "StandardRules" as Rules
+
+Player -> UI : Click on hole
+UI -> GC : onHoleClicked(holeIndex, playerSide)
+GC -> GC : Check if valid move
+GC -> TB : Create MoveCommand
+GC -> TB : Execute move
+TB -> MS : executeMove(boardState, hole, playerColor)
+MS -> BS : Get seeds from hole
+MS -> MS : Distribute seeds
+MS -> Rules : Check for tuzdyk/capture
+Rules --> MS : Apply rules if needed
+MS --> TB : Return move result
+TB -> TB : Switch current player
+TB -> TB : Notify observers
+TB --> GC : Return move result
+GC -> UI : update()
+UI -> UI : Update UI components
+
+GC -> BC : scheduleBotMove()
+BC -> TB : Get bot move
+BC -> TB : Execute bot move
+TB --> GC : Notify state change
+GC -> UI : update()
+UI -> UI : Update UI components
+@enduml
