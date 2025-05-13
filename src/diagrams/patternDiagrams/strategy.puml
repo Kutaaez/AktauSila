@@ -1,0 +1,15 @@
+@startuml strategy_diagram
+title Strategy Pattern
+
+skinparam componentStyle rectangle
+
+package "Strategy" {
+  interface IMoveStrategy
+  class StandardMoveStrategy
+  class MoveStrategyFactory <<Factory>>
+}
+
+StandardMoveStrategy ..|> IMoveStrategy
+MoveStrategyFactory --> IMoveStrategy
+ToguzBoard --> IMoveStrategy
+@enduml

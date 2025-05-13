@@ -1,0 +1,15 @@
+@startuml observer_diagram
+title Observer Pattern
+
+skinparam componentStyle rectangle
+
+package "Observer" {
+  interface IStateObserver
+  class ToguzBoard
+  class GameController
+}
+
+GameController ..|> IStateObserver
+ToguzBoard --> IStateObserver : addObserver()
+ToguzBoard --> GameController : notifyObservers()
+@enduml

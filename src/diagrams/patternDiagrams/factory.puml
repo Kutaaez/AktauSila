@@ -1,0 +1,17 @@
+@startuml factory_diagram
+title Factory Pattern
+
+skinparam componentStyle rectangle
+
+package "Factory" {
+  class PlayerFactory <<Factory>>
+  class MoveStrategyFactory <<Factory>>
+  class HumanPlayer
+  class BotPlayer
+  interface IMoveStrategy
+}
+
+PlayerFactory --> HumanPlayer
+PlayerFactory --> BotPlayer
+MoveStrategyFactory --> IMoveStrategy
+@enduml

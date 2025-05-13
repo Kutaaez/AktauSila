@@ -1,0 +1,19 @@
+@startuml command_diagram
+title Command Pattern
+
+skinparam componentStyle rectangle
+
+package "Command" {
+  interface ICommand
+  class MoveCommand
+  class ResetCommand
+}
+
+MoveCommand ..|> ICommand
+ResetCommand ..|> ICommand
+
+GameController --> MoveCommand
+GameController --> ResetCommand
+MoveCommand --> ToguzBoard
+ResetCommand --> ToguzBoard
+@enduml

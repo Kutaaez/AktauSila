@@ -1,0 +1,16 @@
+@startuml facade_diagram
+title Facade Pattern
+
+skinparam componentStyle rectangle
+
+package "Facade" {
+  class ToguzBoard <<Facade>>
+  class BoardState
+  class GameStateImpl
+  interface IMoveStrategy
+}
+
+ToguzBoard --> BoardState
+ToguzBoard --> GameStateImpl
+ToguzBoard --> IMoveStrategy
+@enduml

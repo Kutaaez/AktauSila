@@ -1,0 +1,36 @@
+@startuml mvc_diagram
+title MVC Pattern
+
+skinparam componentStyle rectangle
+
+package "Model" {
+  class ToguzBoard
+  class BoardState
+  class Holes
+  class Kazans
+  class Tuzdyks
+  class CurrentPlayer
+}
+
+package "View" {
+  class MainMenuView
+  class MainView
+  class HolePane
+  class ScoreBoard
+  class PlayerPanel
+  class TurnIndicator
+  class ConfirmModal
+  class WinOverlay
+}
+
+package "Controller" {
+  interface IGameController
+  class GameController
+}
+
+GameController ..|> IGameController
+GameController --> ToguzBoard
+GameController --> MainView
+MainView --> GameController
+MainMenuView --> GameController
+@enduml
