@@ -73,58 +73,66 @@ Togyzqumalaq is a desktop implementation of the traditional Kazakh mancala game,
 ```
 
 src/
+└─ diagrams/
+│   └─ patternDiagrams/
+│   │   └─  ├─png/
+│   │       │  └─...
+│   │       └─...
+│   └─ png/
+│   │   └─...
+│   └─ ...
 └─ main/
-└─ java/
-└─ org/
-└─ example/
-├─ application/
-│   └─ App.java
-├─ controller/
-│   ├─ GameController.java
-│   ├─ IGameController.java
-│   └─ BotMoveScheduler.java
-├─ domain/
-│   ├─ board/
-│   │   ├─ BoardState.java
-│   │   ├─ Holes.java
-│   │   ├─ Kazans.java
-│   │   ├─ Tuzdyks.java
-│   │   └─ CurrentPlayer.java
-│   ├─ command/
-│   │   ├─ ICommand.java
-│   │   ├─ MoveCommand.java
-│   │   └─ ResetCommand.java
-│   ├─ facade/
-│   │   └─ ToguzBoard.java
-│   ├─ game/
-│   │   ├─ IGameState.java
-│   │   ├─ GameStateImpl.java
-│   │   └─ GameResultChecker.java
-│   ├─ observer/
-│   │   └─ IStateObserver.java
-│   ├─ player/
-│   │   ├─ IPlayer.java
-│   │   ├─ BotPlayer.java
-│   │   ├─ HumanPlayer.java
-│   │   └─ PlayerFactory.java
-│   ├─ rules/
-│   │   ├─ IRules.java
-│   │   └─ StandardRules.java
-│   └─ strategy/
-│       ├─ IMoveStrategy.java
-│       ├─ StandardMoveStrategy.java
-│       └─ MoveStrategyFactory.java
-└─ view/
-   ├─  components/
-   │   ├─ ConfirmModal.java
-   │   ├─ HolePane.java
-   │   ├─ PlayerPanel.java
-   │   ├─ ScoreBoard.java
-   │   ├─ TurnIndicator.java
-   │   ├─ WinOverlay.java
-    └─ screens/
-      ├─ MainMenuView\.java
-      └─ MainView\.java
+    └─java/
+        └─ org/
+            └─ example/
+            ├─ application/
+            │    └─ App.java
+            ├─ controller/
+            │     ├─ GameController.java
+            │     ├─ IGameController.java
+            │     └─ BotMoveScheduler.java
+            ├─ domain/
+            │   ├─ board/
+            │   │   ├─ BoardState.java
+            │   │   ├─ Holes.java
+            │   │   ├─ Kazans.java
+            │   │   ├─ Tuzdyks.java
+            │   │   └─ CurrentPlayer.java
+            │   ├─ command/
+            │   │   ├─ ICommand.java
+            │   │   ├─ MoveCommand.java
+            │   │   └─ ResetCommand.java
+            │   ├─ facade/
+            │   │   └─ ToguzBoard.java
+            │   ├─ game/
+            │   │   ├─ IGameState.java
+            │   │   ├─ GameStateImpl.java
+            │   │   └─ GameResultChecker.java
+            │   ├─ observer/
+            │   │   └─ IStateObserver.java
+            │   ├─ player/
+            │   │   ├─ IPlayer.java
+            │   │   ├─ BotPlayer.java
+            │   │   ├─ HumanPlayer.java
+            │   │   └─ PlayerFactory.java
+            │   ├─ rules/
+            │   │   ├─ IRules.java
+            │   │   └─ StandardRules.java
+            │   └─ strategy/
+            │       ├─ IMoveStrategy.java
+            │       ├─ StandardMoveStrategy.java
+            │       └─ MoveStrategyFactory.java
+            └─ view/
+               ├─  components/
+               │   ├─ ConfirmModal.java
+               │   ├─ HolePane.java
+               │   ├─ PlayerPanel.java
+               │   ├─ ScoreBoard.java
+               │   ├─ TurnIndicator.java
+               │   ├─ WinOverlay.java
+                └─ screens/
+                  ├─ MainMenuView\.java
+                  └─ MainView\.java
 
 
 ```
