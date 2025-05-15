@@ -1,0 +1,22 @@
+@startuml class_diagram_observer
+
+skinparam componentStyle rectangle
+
+package "Observer" {
+  interface IStateObserver {
+    +onStateChanged(state: GameStateImpl): void
+  }
+
+  class GameController {
+    +onStateChanged(state: GameStateImpl): void
+  }
+
+  class ToguzBoard {
+    +addObserver(observer: IStateObserver): void
+    +notifyObservers(): void
+  }
+}
+
+ToguzBoard --> IStateObserver
+GameController ..|> IStateObserver
+@enduml

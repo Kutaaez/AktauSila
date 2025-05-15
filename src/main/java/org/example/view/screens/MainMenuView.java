@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.controller.GameController;
 import org.example.view.components.ConfirmModal;
+import org.example.view.components.GameHistory;
 
 public class MainMenuView {
     private final Stage stage;
@@ -24,7 +25,7 @@ public class MainMenuView {
         root.setPadding(new Insets(20));
 
         // Title
-        Label titleLabel = new Label("Toguz Kumalak");
+        Label titleLabel = new Label("Toguz Qumalaq");
         titleLabel.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1a1a1a;");
 
         // Buttons
@@ -38,18 +39,25 @@ public class MainMenuView {
         twoPlayerButton.setPrefWidth(200);
         twoPlayerButton.setOnAction(e -> startGame(true));
 
+        Button historyButton = new Button("Game History");
+        historyButton.getStyleClass().add("reset-button");
+        historyButton.setPrefWidth(200);
+        historyButton.setOnAction(e -> {
+            GameController controller = new GameController(false); // Initialize with default single-player mode
+            GameHistory gameHistory = new GameHistory(stage, controller);
+        });
+
         Button exitButton = new Button("Exit");
         exitButton.getStyleClass().add("exit-button");
         exitButton.setPrefWidth(200);
         exitButton.setOnAction(e -> {
-            ConfirmModal modal = new ConfirmModal("Exit Game", "Are you sure you want to exit\n to the main menu?");
-            modal.setOnConfirm(() -> {
-                stage.close();
-            });
+            ConfirmModal modal = new ConfirmModal("Exit Game", "Are you sure you want to exit?");
+            modal.setOnConfirm(() -> stage.close());
             modal.show();
         });
+
         // Assemble
-        root.getChildren().addAll(titleLabel, singlePlayerButton, twoPlayerButton, exitButton);
+        root.getChildren().addAll(titleLabel, singlePlayerButton, twoPlayerButton, historyButton, exitButton);
 
         // Scene setup
         scene = new Scene(root, 400, 600);

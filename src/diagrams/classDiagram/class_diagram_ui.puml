@@ -1,0 +1,50 @@
+@startuml class_diagram_ui
+
+skinparam componentStyle rectangle
+
+package "View" {
+  class MainMenuView {
+    +onStartClicked(): void
+    +onPauseClicked(): void
+  }
+
+  class MainView {
+    +onHoleClicked(holeIndex: int): void
+    +onPauseClicked(): void
+    +updateUI(): void
+  }
+
+  class HolePane {
+    +displayHole(holeIndex: int): void
+  }
+
+  class ScoreBoard {
+    +updateScore(playerColor: String, score: int): void
+  }
+
+  class PlayerPanel {
+    +setPlayerInfo(playerColor: String, playerName: String): void
+  }
+
+  class TurnIndicator {
+    +setTurnIndicator(playerColor: String): void
+  }
+
+  class ConfirmModal {
+    +showConfirmDialog(message: String): void
+  }
+
+  class WinOverlay {
+    +showWinMessage(playerColor: String): void
+  }
+}
+
+MainView --> GameController
+MainMenuView --> GameController
+MainView --> HolePane
+MainView --> ScoreBoard
+MainView --> PlayerPanel
+MainView --> TurnIndicator
+MainView --> ConfirmModal
+MainView --> WinOverlay
+@enduml

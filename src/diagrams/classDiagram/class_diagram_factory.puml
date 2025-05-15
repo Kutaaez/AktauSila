@@ -1,0 +1,25 @@
+@startuml class_diagram_factory
+
+skinparam componentStyle rectangle
+
+package "Factory" {
+  class PlayerFactory {
+    +createPlayer(playerColor: String): IPlayer
+  }
+
+  class HumanPlayer {
+    +makeMove(): void
+  }
+
+  class BotPlayer {
+    +makeMove(): void
+  }
+
+  interface IPlayer {
+    +makeMove(): void
+  }
+}
+
+PlayerFactory --> HumanPlayer
+PlayerFactory --> BotPlayer
+@enduml

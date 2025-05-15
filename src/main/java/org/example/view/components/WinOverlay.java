@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.example.controller.GameController;
+import org.example.domain.db.GameResultDAO;
 import org.example.domain.player.BotPlayer;
 import javafx.stage.Stage;
 import org.example.view.screens.MainMenuView;
@@ -63,10 +64,27 @@ public class WinOverlay extends StackPane {
     public void showResult(int result) {
         boolean isBotGame = controller.getPlayers()[1] instanceof BotPlayer;
         if (result == 1) {
+
+            GameResultDAO.saveGameResult(
+                    "Player 1",
+                    isBotGame ? "Single Player" : "Two Player"
+            );
+
             resultLabel.setText(isBotGame ? "Player Wins!" : "Player 1 Wins!");
         } else if (result == -1) {
+
+            GameResultDAO.saveGameResult(
+                    isBotGame ? "Bot" : "Player 2",
+                    isBotGame ? "Single Player" : "Two Player"
+            );
+
             resultLabel.setText(isBotGame ? "Bot Wins!" : "Player 2 Wins!");
         } else if (result == 0) {
+
+            GameResultDAO.saveGameResult(
+                    "Draw",
+                    isBotGame ? "Single Player" : "Two Player"
+            );
             resultLabel.setText("Draw!");
         }
         setVisible(true);

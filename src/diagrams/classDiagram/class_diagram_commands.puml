@@ -1,0 +1,39 @@
+@startuml class_diagram_commands
+
+skinparam componentStyle rectangle
+
+package "Command" {
+  interface ICommand {
+    +execute(): void
+  }
+
+  class MoveCommand {
+    +execute(): void
+    +setMove(holeIndex: int, playerColor: String): void
+  }
+
+  class ResetCommand {
+    +execute(): void
+  }
+}
+
+package "Strategy" {
+  interface IMoveStrategy {
+    +executeMove(boardState: BoardState, holeIndex: int, playerColor: String): void
+  }
+
+  class StandardMoveStrategy {
+    +executeMove(boardState: BoardState, holeIndex: int, playerColor: String): void
+  }
+
+  class MoveStrategyFactory {
+    +createStrategy(): IMoveStrategy
+  }
+}
+
+MoveCommand --> ToguzBoard
+ResetCommand --> ToguzBoard
+
+MoveStrategyFactory --> IMoveStrategy
+ToguzBoard --> IMoveStrategy
+@enduml

@@ -1,0 +1,22 @@
+@startuml class_diagram_commands
+
+skinparam componentStyle rectangle
+
+package "Command" {
+  interface ICommand
+  class MoveCommand
+  class ResetCommand
+}
+
+package "Strategy" {
+  interface IMoveStrategy
+  class StandardMoveStrategy
+  class MoveStrategyFactory
+}
+
+ICommand <|-- MoveCommand
+ICommand <|-- ResetCommand
+
+MoveStrategyFactory --> IMoveStrategy
+ToguzBoard --> IMoveStrategy
+@enduml

@@ -1,0 +1,61 @@
+@startuml class_diagram_model_controller
+
+skinparam componentStyle rectangle
+
+package "Model" {
+  class ToguzBoard {
+    +executeMove(holeIndex: int, playerColor: String)
+    +reset()
+    +getCurrentPlayer(): CurrentPlayer
+    +addObserver(observer: IStateObserver)
+  }
+
+  class BoardState {
+    +getHoleSeeds(holeIndex: int): int
+    +updateHoleSeeds(holeIndex: int, seeds: int)
+    +isValidMove(holeIndex: int, playerColor: String): boolean
+  }
+
+  class Holes {
+    +getSeeds(holeIndex: int): int
+    +setSeeds(holeIndex: int, seeds: int)
+  }
+
+  class Kazans {
+    +addSeeds(seeds: int)
+    +getSeeds(): int
+  }
+
+  class Tuzdyks {
+    +checkForTuzdyk(holeIndex: int): boolean
+    +captureSeeds(holeIndex: int): void
+  }
+
+  class CurrentPlayer {
+    +getColor(): String
+    +setColor(color: String)
+  }
+}
+
+package "Controller" {
+  interface IGameController {
+    +onHoleClicked(holeIndex: int, playerSide: String)
+    +onPauseClicked()
+  }
+
+  class GameController {
+    +onHoleClicked(holeIndex: int, playerSide: String)
+    +onPauseClicked()
+    +checkIfValidMove(holeIndex: int, playerSide: String): boolean
+  }
+}
+
+ToguzBoard --> BoardState
+ToguzBoard --> Holes
+ToguzBoard --> Kazans
+ToguzBoard --> Tuzdyks
+ToguzBoard --> CurrentPlayer
+
+GameController ..|> IGameController
+GameController --> ToguzBoard
+@enduml

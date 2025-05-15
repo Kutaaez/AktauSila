@@ -1,0 +1,217 @@
+@startuml DomainLayer
+
+' Domain - Board Classes
+class ToguzBoard {
+  -boardState: BoardState
+  -gameState: IGameState
+  -moveStrategy: IMoveStrategy
+  -observers: List<IStateObserver>
+  +ToguzBoard()
+  +executeMove(hole: int, playerColor: int): boolean
+  +getAvailableMoves(playerColor: int): List<Integer>
+  +getGameResult(): int
+  +getScore(): String
+  +getCurrentColor(): int
+  +isGameFinished(): boolean
+  +getTuzdyk(playerColor: int): int
+  +getKazan(playerColor: int): int
+  +getHoleCount(hole: int): int
+  +getOpponentHoleCount(hole: int): int
+  +reset()
+  +addObserver(observer: IStateObserver)
+}
+
+class BoardState {
+  -holes: Holes
+  -kazans: Kazans
+  -tuzdyks: Tuzdyks
+  -currentPlayer: CurrentPlayer
+  +BoardState()
+  +getHoles(): Holes
+  +getKazans(): Kazans
+  +getTuzdyks(): Tuzdyks
+  +getCurrentPlayer(): CurrentPlayer
+  +getHoleCount(index: int): int
+  +getKazan(playerColor: int): int
+  +addToKazan(playerColor: int, seeds: int)
+  +reset()
+}
+
+class Holes {
+  +TOTAL_HOLES: int
+  +HOLES_PER_PLAYER: int
+  +INITIAL_SEEDS: int
+  +TUZDYK_MARKER: int
+  -holes: int[]
+  +Holes()
+  +getSeedCount(index: int): int
+  +setSeedCount(index: int, count: int)
+  +isTuzdyk(index: int): boolean
+  +reset()
+}
+
+class Kazans {
+  +WHITE_KAZAN: int
+  +BLACK_KAZAN: int
+  -kazans: int[]
+  +Kazans()
+  +getKazan(playerColor: int): int
+  +addToKazan(playerColor: int, seeds: int)
+  +reset()
+}
+
+class Tuzdyks {
+  +WHITE_TUZDYK: int
+  +BLACK_TUZDYK: int
+  -tuzdyks: int[]
+  +Tuzdyks()
+  +getTuzdyk(playerColor: int): int
+  +setTuzdyk(playerColor: int, holeIndex: int)
+  +reset()
+}
+
+class CurrentPlayer {
+  +WHITE_PLAYER: int
+  +BLACK_PLAYER: int
+  -currentPlayer: int
+  +CurrentPlayer()
+  +getCurrentPlayer(): int
+  +switchPlayer()
+  +reset()
+}
+
+' Domain - Game
+interface IGameState {
+  +isFinished(): boolean
+  +getResult(): int
+  +checkGameState()
+  +reset()
+}
+
+class GameStateImpl {
+  -finished: boolean
+  -gameResult: int
+  -resultChecker: GameResultChecker
+  -boardState: BoardState
+  +GameStateImpl(boardState: BoardState)
+  +isFinished(): boolean
+  +getResult(): int
+  +checkGameState()
+  +reset()
+  +setFinished(finished: boolean)
+  +setGameResult(gameResult: int)
+}
+
+class GameResultChecker {
+  +TOTAL_SEEDS: int
+  +WIN_THRESHOLD: int
+  +DRAW_THRESHOLD: int
+  +checkGameState(boardState: BoardState, gameState: GameStateImpl)
+}
+
+' Domain - Observer
+interface IStateObserver {
+  +onStateChanged()
+}
+
+' Domain - Player
+interface IPlayer {
+  +makeMove(board: ToguzBoard): int
+  +getColor(): int
+}
+
+class HumanPlayer {
+  -color: int
+  +HumanPlayer(color: int)
+  +makeMove(board: ToguzBoard): int
+  +getColor(): int
+}
+
+class BotPlayer {
+  -color: int
+  -random: Random
+  +BotPlayer(color: int)
+  +makeMove(board: ToguzBoard): int
+  +getColor(): int
+}
+
+class PlayerFactory {
+  +createPlayers(twoPlayers: boolean): IPlayer[]
+}
+
+' Domain - Rules
+interface IRules {
+  +canFormTuzdyk(index: int, playerColor: int, boardState: BoardState): boolean
+  +applyTuzdyk(index: int, playerColor: int, boardState: BoardState)
+  +canCapture(index: int, playerColor: int, boardState: BoardState): boolean
+  +applyCapture(index: int, playerColor: int, boardState: BoardState)
+}
+
+class StandardRules {
+  +TUZDYK_SEEDS: int
+  +canFormTuzdyk(index: int, playerColor: int, boardState: BoardState): boolean
+  +applyTuzdyk(index: int, playerColor: int, boardState: BoardState)
+  +canCapture(index: int, playerColor: int, boardState: BoardState): boolean
+  +applyCapture(index: int, playerColor: int, boardState: BoardState)
+}
+
+' Domain - Strategy
+interface IMoveStrategy {
+  +executeMove(boardState: BoardState, hole: int, playerColor: int): boolean
+}
+
+class StandardMoveStrategy {
+  -rules: IRules
+  +StandardMoveStrategy(rules: IRules)
+  +executeMove(boardState: BoardState, hole: int, playerColor: int): boolean
+}
+
+class MoveStrategyFactory {
+  +createStandardMoveStrategy(): IMoveStrategy
+}
+
+' Domain - Command
+interface ICommand {
+  +execute(): boolean
+}
+
+class MoveCommand {
+  -board: ToguzBoard
+  -hole: int
+  -playerColor: int
+  +MoveCommand(board: ToguzBoard, hole: int, playerColor: int)
+  +execute(): boolean
+}
+
+class ResetCommand {
+  -board: ToguzBoard
+  +ResetCommand(board: ToguzBoard)
+  +execute(): boolean
+}
+
+' Relationships
+ToguzBoard --> BoardState : manages
+ToguzBoard --> IMoveStrategy : uses
+ToguzBoard --> IGameState : uses
+ToguzBoard --> IStateObserver : notifies
+BoardState --> Holes : contains
+BoardState --> Kazans : contains
+BoardState --> Tuzdyks : contains
+BoardState --> CurrentPlayer : contains
+IGameState <|.. GameStateImpl : implements
+GameStateImpl --> GameResultChecker : uses
+GameStateImpl --> BoardState : references
+IPlayer <|.. HumanPlayer : implements
+IPlayer <|.. BotPlayer : implements
+PlayerFactory --> IPlayer : creates
+IRules <|.. StandardRules : implements
+IMoveStrategy <|.. StandardMoveStrategy : implements
+StandardMoveStrategy --> IRules : uses
+MoveStrategyFactory --> IMoveStrategy : creates
+MoveStrategyFactory --> StandardRules : uses
+ICommand <|.. MoveCommand : implements
+ICommand <|.. ResetCommand : implements
+MoveCommand --> ToguzBoard : executes on
+ResetCommand --> ToguzBoard : executes on
+
+@enduml

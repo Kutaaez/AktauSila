@@ -1,0 +1,154 @@
+@startuml ApplicationControllerView
+
+' Application
+class App {
+  +start(primaryStage: Stage)
+  +main(args: String[])
+}
+
+' Controller Classes
+interface IGameController {
+  +onHoleClicked(holeIndex: int, playerSide: boolean)
+  +onNewGame()
+  +getCurrentPlayer(): int
+  +getGameResult(): int
+  +getHoleCount(holeIndex: int): int
+  +getOpponentHoleCount(holeIndex: int): int
+  +getKazan(playerColor: int): int
+  +getTuzdyk(playerColor: int): int
+  +isFinished(): boolean
+}
+
+class GameController {
+  -model: ToguzBoard
+  -view: MainView
+  -players: IPlayer[]
+  -botMoveScheduler: BotMoveScheduler
+  +GameController(twoPlayers: boolean)
+  +setView(view: MainView)
+  +onHoleClicked(holeIndex: int, playerSide: boolean)
+  +onNewGame()
+  +getCurrentPlayer(): int
+  +getGameResult(): int
+  +getHoleCount(holeIndex: int): int
+  +getOpponentHoleCount(holeIndex: int): int
+  +getKazan(playerColor: int): int
+  +getTuzdyk(playerColor: int): int
+  +isFinished(): boolean
+  +getPlayers(): IPlayer[]
+  +onStateChanged()
+}
+
+class BotMoveScheduler {
+  +scheduleBotMove(controller: GameController, model: ToguzBoard, players: IPlayer[])
+}
+
+' View - Screens
+class MainMenuView {
+  -stage: Stage
+  -scene: Scene
+  +MainMenuView(stage: Stage)
+  +getScene(): Scene
+}
+
+class MainView {
+  -controller: GameController
+  -stage: Stage
+  -scene: Scene
+  -root: BorderPane
+  -topRow: HBox
+  -bottomRow: HBox
+  -scoreBoard: ScoreBoard
+  -playerPanel: PlayerPanel
+  -winOverlay: WinOverlay
+  +MainView(controller: GameController, stage: Stage)
+  +update()
+  +getScene(): Scene
+}
+
+' View - Components
+class HolePane {
+  -holeIndex: int
+  -playerSide: boolean
+  -container: StackPane
+  -background: Rectangle
+  -ballsGrid: GridPane
+  -stackedBalls: StackPane
+  -countLabel: Label
+  -indexLabel: Label
+  -isTuzdyk: boolean
+  +HolePane(holeIndex: int, playerSide: boolean)
+  +getHoleIndex(): int
+  +setCount(count: int)
+  +setTuzdyk(isTuz: boolean)
+}
+
+class ScoreBoard {
+  -container: VBox
+  -playerScore: Label
+  -opponentScore: Label
+  +ScoreBoard(controller: GameController)
+  +setScores(player1: int, player2: int)
+  +getNode(): VBox
+}
+
+class PlayerPanel {
+  -node: VBox
+  -playerScore: Label
+  -opponentScore: Label
+  -currentPlayerLabel: Label
+  -playerLabel: Label
+  -opponentLabel: Label
+  +PlayerPanel(controller: GameController)
+  +setScores(playerKazan: int, opponentKazan: int)
+  +setCurrentPlayer(currentPlayer: int)
+  +getNode(): Node
+}
+
+class WinOverlay {
+  -resultLabel: Label
+  -newGameButton: Button
+  -mainMenuButton: Button
+  -controller: GameController
+  +WinOverlay(controller: GameController, stage: Stage)
+  +showResult(result: int)
+}
+
+class ConfirmModal {
+  -stage: Stage
+  -onConfirm: Runnable
+  +ConfirmModal(title: String, message: String)
+  +setOnConfirm(onConfirm: Runnable)
+  +show()
+}
+
+' Placeholder Classes for Relationships
+class ToguzBoard {
+}
+
+interface IPlayer {
+}
+
+interface IStateObserver {
+  +onStateChanged()
+}
+
+' Relationships
+App --> MainMenuView : launches
+IGameController <|.. GameController
+GameController --> ToguzBoard : uses
+GameController --> MainView : updates
+GameController --> IPlayer : manages
+GameController --> BotMoveScheduler : uses
+GameController ..|> IStateObserver : implements
+MainMenuView --> GameController : initiates
+MainView --> GameController : interacts
+MainView --> HolePane : contains
+MainView --> ScoreBoard : contains
+MainView --> PlayerPanel : contains
+MainView --> WinOverlay : contains
+MainView --> ConfirmModal : uses
+WinOverlay --> GameController : interacts
+WinOverlay --> MainMenuView : navigates
+
+@enduml

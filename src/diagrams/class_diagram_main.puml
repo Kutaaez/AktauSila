@@ -1,0 +1,28 @@
+@startuml class_diagram_main
+
+skinparam componentStyle rectangle
+
+package "Model" {
+  class ToguzBoard
+  class BoardState
+  class Holes
+  class Kazans
+  class Tuzdyks
+  class CurrentPlayer
+}
+
+package "Controller" {
+  interface IGameController
+  class GameController
+}
+
+ToguzBoard --> BoardState
+ToguzBoard --> Holes
+ToguzBoard --> Kazans
+ToguzBoard --> Tuzdyks
+ToguzBoard --> CurrentPlayer
+
+GameController ..|> IGameController
+GameController --> ToguzBoard
+GameController --> MainView
+@enduml

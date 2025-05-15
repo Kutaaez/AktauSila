@@ -47,6 +47,7 @@ public class GameController implements IGameController, IStateObserver {
                 view.update();
                 if (!isPaused) {
                     botMoveScheduler.scheduleBotMove(this, model, players);
+
                 }
             }
         } catch (Exception e) {
@@ -68,24 +69,9 @@ public class GameController implements IGameController, IStateObserver {
         }
     }
 
-    public void pauseGame() {
-        if (!model.isGameFinished()) {
-            isPaused = true;
-            view.update(); // Обновить UI, чтобы заблокировать лунки
-        }
-    }
 
-    public void resumeGame() {
-        if (isPaused) {
-            isPaused = false;
-            view.update();
-            botMoveScheduler.scheduleBotMove(this, model, players);
-        }
-    }
 
-    public boolean isPaused() {
-        return isPaused;
-    }
+
 
     public int getCurrentPlayer() {
         return model.getCurrentColor();

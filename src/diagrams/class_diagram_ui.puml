@@ -1,0 +1,24 @@
+@startuml class_diagram_ui
+
+skinparam componentStyle rectangle
+
+package "View" {
+  class MainMenuView
+  class MainView
+  class HolePane
+  class ScoreBoard
+  class PlayerPanel
+  class TurnIndicator
+  class ConfirmModal
+  class WinOverlay
+}
+
+MainMenuView --> GameController
+MainView --> GameController
+MainView --> HolePane
+MainView --> ScoreBoard
+MainView --> PlayerPanel
+MainView --> TurnIndicator
+MainView --> ConfirmModal
+MainView --> WinOverlay
+@enduml

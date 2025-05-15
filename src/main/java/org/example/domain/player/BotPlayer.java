@@ -31,6 +31,7 @@ public class BotPlayer implements IPlayer {
      */
     @Override
     public int makeMove(ToguzBoard board) {
+
         if (board.isGameFinished()) {
             throw new IllegalStateException("Cannot make a move: game is finished.");
         }
@@ -38,6 +39,7 @@ public class BotPlayer implements IPlayer {
         if (moves.isEmpty()) {
             return -1; // No valid moves available
         }
+
         return moves.get(random.nextInt(moves.size()));
     }
 
