@@ -68,7 +68,7 @@ public class HolePane extends Pane {
         StackPane.setMargin(countLabel, new Insets(0, 0, 5, 0));
 
         // Index label
-        indexLabel = new Label(String.valueOf(holeIndex + 1));
+        indexLabel = new Label(String.valueOf(holeIndex));
         indexLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
         indexLabel.setTextFill(Color.BLACK);
         StackPane.setAlignment(indexLabel, Pos.TOP_CENTER);
