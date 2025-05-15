@@ -7,7 +7,7 @@
 # Togyzqumalaq
 
 ## Description
-Togyzqumalaq is a desktop implementation of the traditional Kazakh mancala game, built in Java with a clean, modular architecture and a JavaFX user interface. The game supports two players on a single device and leverages design patterns (Strategy, MVC, Singleton, etc.) for flexible, extensible game logic instead of a classic AI engine.
+Togyzqumalaq is a desktop implementation of the traditional Kazakh mancala game, built in Java with a clean, modular architecture and a JavaFX user interface. The game supports two players on a single device and leverages design patterns (Strategy, Observer, etc.) for flexible, extensible game logic instead of a classic AI engine.
 
 ## Features
 - **Traditional Gameplay**  
@@ -24,11 +24,14 @@ Togyzqumalaq is a desktop implementation of the traditional Kazakh mancala game,
   One-click reset and replay without restarting the application.  
 - **Cross-Platform**  
   Runs on any OS with Java 11+ and JavaFX 11+.
+- **Game history**
+   Saving history to local database in postgresql.
 
 ## Technologies
 - **Java 11+**  
 - **JavaFX 11+**  
 - **Maven** for build and dependency management
+- **Postgre** for saving history of the game.
 
 ## Installation & Run
 1. **Clone the repository**  
@@ -46,12 +49,6 @@ Togyzqumalaq is a desktop implementation of the traditional Kazakh mancala game,
 
 
 ## Design Patterns
-
-- **MVC (Architectural)**  
-  - **Model:** `ToguzBoard`, `BoardState`, `Holes`, `Kazans`, `Tuzdyks`, `CurrentPlayer`  
-  - **View:** `MainMenuView`, `MainView`, UI components (`HolePane`, `ScoreBoard`, `PlayerPanel`, `TurnIndicator`, `ConfirmModal`, `WinOverlay`)  
-  - **Controller:** `GameController`, `IGameController`  
-
 - **Command (Behavioral)**  
   - `ICommand`, `MoveCommand`, `ResetCommand`  
 
@@ -102,6 +99,9 @@ src/
             │   │   ├─ ICommand.java
             │   │   ├─ MoveCommand.java
             │   │   └─ ResetCommand.java
+            │   ├─ db/
+            │   │   ├─ GameResult.java
+            │   │   └─ GameResultDAO.java
             │   ├─ facade/
             │   │   └─ ToguzBoard.java
             │   ├─ game/
@@ -125,6 +125,7 @@ src/
             └─ view/
                ├─  components/
                │   ├─ ConfirmModal.java
+               │   ├─ GameHistory.java
                │   ├─ HolePane.java
                │   ├─ PlayerPanel.java
                │   ├─ ScoreBoard.java
